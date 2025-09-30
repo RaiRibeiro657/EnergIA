@@ -7,56 +7,61 @@ ___
 - Rai Augusto Ribeiro – RM: 562870
 ___
 
-  O EnergIA é um sistema de automação que simula o gerenciamento inteligente de energia elétrica com suporte a comandos de voz.
-Ele combina um backend em Flask para controle do consumo e estado das cargas com um assistente de voz interativo, que entende e responde a comandos naturais.
+O **EnergIA** é um sistema completo de gerenciamento de energia, desenvolvido para monitorar e controlar o consumo de cargas elétricas críticas e secundárias em tempo real. O projeto integra três camadas principais:  
 
-  **Funcionalidades**
+1. **Backend (API Flask)** – Mantém o estado da bateria e das cargas, processa atualizações e fornece endpoints para consulta e controle.  
+2. **Interface Visual (Streamlit)** – Painel interativo que mostra status da bateria, histórico de consumo e permite controle manual das cargas.  
+3. **Assistente de Voz (Python)** – Permite interação por comandos de voz, possibilitando ligar/desligar cargas e consultar o status da bateria sem precisar tocar no computador.  
 
-- Monitoramento de energia
-Consulta o nível de bateria e o status das cargas críticas e secundárias.
-
-- Gerenciamento de cargas
-
-- Permite ligar ou desligar cargas críticas e secundárias por meio de comandos de voz.
-
-- Assistente de voz interativo
-
-- Reconhece comandos de voz do usuário.
-
-- Responde em voz sintetizada.
-
-- Executa ações automáticas no sistema.
-
-  *API REST (Flask)*
-  Disponibiliza rotas simples para:
-
-- Consultar status da energia.
-
-- Atualizar estado das cargas.
+O sistema foi projetado para **simular o gerenciamento de energia de uma residência ou micro-usina**, com foco em automação e monitoramento inteligente.
 
 ___
 
-  **Fluxo de Funcionamento**
+## **Funcionamento do Backend**
 
-- O usuário fala um comando (“Qual o status da energia?”, “Desligar carga secundária”).
-- O assistente interpreta a fala e envia a requisição para a API Flask.
-- O backend processa a ação, simula os efeitos no consumo de energia e retorna os dados.
-- O assistente responde ao usuário em voz.
+O **backend** é responsável por manter o estado do sistema e processar ações automáticas. Ele contém a classe `EnergyManager` que:  
 
-___
+- **Armazena o nível de bateria** e o estado de cada carga (crítica e secundária).  
+- **Calcula o consumo de energia** com base nas cargas ligadas.  
+- **Permite atualização manual ou automática das cargas**.  
 
-  **Tecnologias Utilizadas**
+A API expõe dois endpoints principais:  
 
-- Python 3.10+
-- Flask → para a API backend
-- SpeechRecognition → reconhecimento de voz
-- pyttsx3 → síntese de voz (respostas faladas)
-- Requests → comunicação entre assistente e backend
+1. **`/status`** – Retorna o estado atual da bateria e das cargas em formato JSON.  
+2. **`/update`** – Permite ligar ou desligar cargas específicas através de requisições POST.
 
 ___
 
-  **Como executar**
-  Após clonar o repositório em sua maquina, será necessário instalar o conteúdo presente no requirements.txt com o comando *pip install -r requirements.txt* no terminal, 
-  assim em outro terminal rode o programa com o código python voice/assistant.py
+## **Funcionamento da Interface Visual (Streamlit)**
 
+O **painel Streamlit** funciona como uma **central de monitoramento**, permitindo:  
 
+- Visualizar **o nível da bateria em tempo real** com barras de progresso.  
+- Consultar o **estado das cargas críticas e secundárias** com métricas visuais.  
+- Controlar manualmente cargas através de **botões interativos**.  
+- Observar o **histórico de consumo** em gráficos, facilitando análise de padrões de uso.  
+
+O Streamlit consome os dados diretamente da API Flask, garantindo que **qualquer alteração via interface ou assistente de voz seja refletida imediatamente**.
+
+___
+
+## **Funcionamento do Assistente de Voz**
+
+O **assistente de voz** permite que o usuário interaja com o sistema **falando comandos**, sem usar o teclado.  
+
+- Utiliza **SpeechRecognition** para capturar comandos do microfone.  
+- Utiliza **pyttsx3** para respostas de áudio, confirmando ações e informando status.  
+- Integra diretamente com a API Flask para:  
+  - Consultar status da bateria e cargas.  
+  - Ligar ou desligar a carga crítica.  
+  - Ligar ou desligar a carga secundária.  
+
+**Comandos de exemplo:**  
+- `"status"` → consulta bateria e estado das cargas.  
+- `"desligar carga secundária"` / `"ligar carga secundária"`  
+- `"desligar carga crítica"` / `"ligar carga crítica"`  
+- `"sair"` ou `"parar"` → encerra o assistente.
+
+___
+
+> Observação: ´sounddevice` substitui o PyAudio, garantindo funcionamento do assistente de voz sem problemas de instalação no Windows.

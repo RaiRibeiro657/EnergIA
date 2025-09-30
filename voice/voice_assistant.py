@@ -2,7 +2,7 @@ import speech_recognition as sr
 import pyttsx3
 import requests
 
-API_URL = "http://127.0.0.1:5000"  
+API_URL = "http://127.0.0.1:5000" 
 
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
@@ -12,8 +12,10 @@ def speak(text):
     engine.runAndWait()
 
 def listen():
+   
     with sr.Microphone() as source:
         print("🎤 Diga um comando...")
+        recognizer.adjust_for_ambient_noise(source) 
         audio = recognizer.listen(source)
 
     try:
