@@ -65,3 +65,7 @@ O **assistente de voz** permite que o usuário interaja com o sistema **falando 
 ___
 
 > Observação: ´sounddevice` substitui o PyAudio, garantindo funcionamento do assistente de voz sem problemas de instalação no Windows.
+>
+> ___
+>
+> Vídeo YouTube: https://youtu.be/voaITdt1LSg
